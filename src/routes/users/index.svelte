@@ -1,39 +1,35 @@
 <script lang="ts">
-	import User from '$lib/widgets/User.svelte';
-
-	let users = [
-		{
-			id: '1',
-			name: 'John Doe'
-		},
-		{
-			id: '2',
-			name: 'Jane Doe'
-		}
-	];
+	import UserCard from '$lib/widgets/UserCard.svelte';
+	import * as dataUtils from '$lib/utils/dataUtils';
 </script>
 
 <h1>Users</h1>
-<div class="user-list">
-	{#each users as { id, name } (id)}
-		<div class="user-wrapper">
-			<User {id} {name} />
-		</div>
-	{/each}
-</div>
+{#await dataUtils.fetchUsers()}
+	Loading users...
+{:then users}
+	<div class="user-list">
+		{#each users as { id, name } (id)}
+			<div class="user-wrapper">
+				<UserCard {id} {name} />
+			</div>
+		{/each}
+	</div>
+{:catch error}
+	{error}
+{/await}
 
 <style>
 	.user-list {
 		display: flex;
+		flex-wrap: wrap;
 	}
 
 	.user-wrapper {
 		display: flex;
-    flex-direction: column;
+		flex-direction: column;
 		justify-content: stretch;
 		align-items: stretch;
 		width: 200px;
-		min-height: 150px;
 		margin-bottom: 8px;
 		margin-right: 8px;
 	}

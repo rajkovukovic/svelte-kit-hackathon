@@ -3,7 +3,7 @@
 ## Requirements
 
 This project is build using Docker and VSCode with remote-containers extension.  
-This keeps your physical machine cleaner (no need for installing of nodeJS which makes your machine safer for nodeJS and dependency related vulnerabilities) and your project will play nicer with a cloud.
+This keeps your physical machine cleaner (no need for installing of nodeJS, which will make your machine safer for nodeJS and dependency related vulnerabilities) and your project will play nicer with a cloud.
 
 - Linux, macOS or Windows (only if you really hate yourself) machine
 - [Docker](https://docs.docker.com/get-docker/)
@@ -14,7 +14,8 @@ This keeps your physical machine cleaner (no need for installing of nodeJS which
 
 - Launch Docker
 - Open this project in VSCode and press `Ctrl + Shift + P` (on macOS `Cmd + Shift + P`),  
-  type `Remote-Containers: Reopen in Container` and press `Enter`. This will start development of your project inside a Docker container and will wire your VSCode to the container.
+  type `Remote-Containers: Reopen in Container` and press `Enter`.  
+  This will start development of your project inside a Docker container and will wire your VSCode to the container.
 - Install dependencies `yarn install`
 - Start a development server:
 
