@@ -1,6 +1,18 @@
 <script lang="ts">
 	export let id: string;
 	export let name: string;
+	export let age: number = 30;
+
+	$: idAsNumber = parseInt(id);
+	$: nextId = idAsNumber + 1;
+
+	let a: number;
+	$: calcA(age);
+
+	function calcA(ageParam: number) {
+		a = age + 1;
+		console.log({ idAsNumber, nextId });
+	}
 </script>
 
 <div>

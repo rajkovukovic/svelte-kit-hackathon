@@ -29,7 +29,7 @@
 
 	.user-wrapper {
 		display: flex;
-    flex-direction: column;
+		flex-direction: column;
 		justify-content: stretch;
 		align-items: stretch;
 		width: 200px;
