@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { authUser } from '$lib/state/auth';
+	import SystemInfo from '$lib/widgets/SystemInfo.svelte';
 </script>
 
 <main>
@@ -13,6 +14,7 @@
 				<a sveltekit:prefetch href="/help">Help</a>
 			</div>
 			<div>
+				<SystemInfo />
 				<a sveltekit:prefetch href="/login">Login</a>
 			</div>
 		</nav>
