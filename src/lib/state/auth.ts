@@ -19,10 +19,10 @@ class SimpleStore<T> implements Writable<T> {
 		this.set(nextValue);
 	}
 
-	subscribe(listener: Subscriber<T>, invalidate?: (value?: T) => void): Unsubscriber {
-		this._listeners.push(listener);
+	subscribe(listner: Subscriber<T>, invalidate?: (value?: T) => void): Unsubscriber {
+		this._listeners.push(listner);
 		return () => {
-			const index = this._listeners.indexOf(listener);
+			const index = this._listeners.indexOf(listner);
 			if (index >= 0) {
 				this._listeners.splice(index);
 			}

@@ -1,9 +1,15 @@
+<script lang="ts">
+	import { authUser } from '$lib/state/auth';
+</script>
+
 <main>
 	<header>
 		<nav>
 			<div>
 				<a sveltekit:prefetch href="/">Home</a>
-				<a sveltekit:prefetch href="/users">Users</a>
+				{#if $authUser}
+					<a sveltekit:prefetch href="/users">Users</a>
+				{/if}
 				<a sveltekit:prefetch href="/help">Help</a>
 			</div>
 			<div>

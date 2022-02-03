@@ -5,8 +5,8 @@
 	let password = '';
 
 	function handleSubmit() {
-		if (username === 'nikola') {
-			$authUser = username;
+		if (username.trim().toLocaleLowerCase() === 'nikola') {
+			$authUser = username.trim();
 		}
 	}
 </script>
