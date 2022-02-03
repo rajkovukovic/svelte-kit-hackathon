@@ -1,9 +1,14 @@
 <main>
 	<header>
 		<nav>
-			<a sveltekit:prefetch href="/">Home</a>
-			<a sveltekit:prefetch href="/users">Users</a>
-			<a sveltekit:prefetch href="/help">Help</a>
+			<div>
+				<a sveltekit:prefetch href="/">Home</a>
+				<a sveltekit:prefetch href="/users">Users</a>
+				<a sveltekit:prefetch href="/help">Help</a>
+			</div>
+			<div>
+				<a sveltekit:prefetch href="/login">Login</a>
+			</div>
 		</nav>
 	</header>
 
@@ -14,7 +19,7 @@
 	<footer>Footer</footer>
 </main>
 
-<style>
+<style lang="scss">
 	main {
 		display: grid;
 		grid-template-rows: auto 1fr auto;
@@ -41,6 +46,10 @@
 
 	nav {
 		display: flex;
+		justify-content: space-between;
+		& > * {
+			display: flex;
+		}
 	}
 
 	a {
