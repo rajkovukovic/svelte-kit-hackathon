@@ -6,13 +6,13 @@
 
 	function handleSubmit() {
 		if (username === 'nikola') {
-			// authUser = username;
+			$authUser = username;
 		}
 	}
 </script>
 
-{#if authUser}
-	<!-- <h1>Hello {authUser}</h1> -->
+{#if $authUser}
+	<h1>Hello {$authUser}</h1>
 {:else}
 	<form on:submit|preventDefault={handleSubmit}>
 		<input bind:value={username} type="text" name="username" />
