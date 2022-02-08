@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { BehaviorSubject, Subject } from 'rxjs';
+	import { BehaviorSubject, distinctUntilChanged, filter, map, Subject } from 'rxjs';
 	import { onDestroy } from 'svelte';
 
 	// const s = new Subject<number>();
@@ -9,12 +9,20 @@
 	// s.next(3);
 
 	const bs = new BehaviorSubject<number>(0);
-	bs.next(1);
-	bs.next(2);
-	bs.next(3);
-	const bsSubsription = bs.subscribe((value) => console.log('BehaviorSubject', value));
 
-	setTimeout(() => bs.next(10), 1000);
+	const bsDerived = bs.pipe(
+		filter((value) => value % 2 === 0),
+		map((value) => value * 10),
+		distinctUntilChanged()
+	);
+
+	const bsSubsription = bsDerived.subscribe((value) => console.log('BehaviorSubject', value));
+
+	for (let i = 1; i <= 10; i++) {
+		bs.next(i);
+		bs.next(i);
+		bs.next(i);
+	}
 
 	onDestroy(() => {
 		// sSubsription.unsubscribe();
