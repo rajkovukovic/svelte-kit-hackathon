@@ -23,10 +23,10 @@
 </div>
 
 <style>
-  div {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding-right: 2ch;
-  }
+	div {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		padding-right: 2ch;
+	}
 </style>
