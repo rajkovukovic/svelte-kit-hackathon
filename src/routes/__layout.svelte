@@ -12,6 +12,7 @@
 					<a sveltekit:prefetch href="/users">Users</a>
 				{/if}
 				<a sveltekit:prefetch href="/help">Help</a>
+				<a sveltekit:prefetch href="/rxjs">RxJs</a>
 			</div>
 			<div>
 				<!-- <SystemInfo /> -->
