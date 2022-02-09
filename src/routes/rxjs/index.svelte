@@ -1,15 +1,18 @@
 <script lang="ts">
-	import { distinctUntilChanged, filter, interval, map } from 'rxjs';
+	import { interval, switchMap } from 'rxjs';
 	import { watch } from 'rxjs-watcher';
+
+	function fakeFetchUser(userId: number, minDelay: number, maxDelay: number): Promise<string> {
+		const delay = minDelay + Math.random() * (maxDelay - minDelay);
+		return new Promise(resolve => {
+			setTimeout(() => resolve(`User-${userId}`), delay);
+		})
+	}
 
 	const stream = interval(1000).pipe(
 		watch('Interval(1000)', 10) as any,
-		filter((value: number) => value % 2 === 1),
-		watch('filtered', 10) as any,
-		map((value: number) => Math.floor(value / 3)),
-		watch('mapped', 10) as any,
-		distinctUntilChanged(),
-		watch('distinctUntilChanged', 10) as any
+		switchMap((value: number) => fakeFetchUser(value, 500, 1500)),
+		watch('switchMap', 10) as any,
 	);
 </script>
 
