@@ -3,25 +3,19 @@
 	import type User from '$lib/models/User';
 	import * as dataUtils from '$lib/utils/dataUtils';
 	import UserCard from '$lib/widgets/UserCard.svelte';
+	import { Observable, Subject, switchMap } from 'rxjs';
+	import { watch } from 'rxjs-watcher';
 
-	$: userId = $page.params.userId;
-	$: userIdAsNumber = parseInt(userId);
+	const userId = new Subject<string>();
+	$: userId.next($page.params.userId);
 
-	let user: User;
-	let userPending = false;
-	let userError: Error = null;
+	$: userIdAsNumber = parseInt($userId);
 
-	$: fetchUser(userId);
-
-	function fetchUser(userIdToFetch: string) {
-		userPending = true;
-		userError = null;
-		dataUtils
-			.fetchOneUser(userIdToFetch)
-			.then((response) => (user = response as any))
-			.catch((error) => (userError = error))
-			.finally(() => (userPending = false));
-	}
+	const user = userId.pipe(
+		watch('userId', 10) as any,
+		switchMap((userIdToFetch: string) => dataUtils.fetchOneUser(userIdToFetch)),
+		watch('user', 10) as any
+	) as Observable<User>;
 </script>
 
 <!-- navigation arrows -->
@@ -30,12 +24,10 @@
 	<a href="/users/{userIdAsNumber + 1}">&#8250;</a>
 </div>
 
-{#if userError}
-	{userError}
-{:else if userPending}
-	Loading user with id {userId}...
+{#if $user}
+	<UserCard id={$user.id} name={$user.name} />
 {:else}
-	<UserCard id={user.id} name={user.name} />
+	Loading...
 {/if}
 
 <style>
