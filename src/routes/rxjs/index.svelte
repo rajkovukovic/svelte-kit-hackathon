@@ -1,33 +1,16 @@
 <script lang="ts">
-	import { BehaviorSubject, distinctUntilChanged, filter, map, Subject } from 'rxjs';
-	import { onDestroy } from 'svelte';
+	import { distinctUntilChanged, filter, interval, map } from 'rxjs';
+	import { watch } from 'rxjs-watcher';
 
-	// const s = new Subject<number>();
-	// s.next(1);
-	// const sSubsription = s.subscribe((value) => console.log('Subject', value));
-	// s.next(2);
-	// s.next(3);
-
-	const bs = new BehaviorSubject<number>(0);
-
-	const bsDerived = bs.pipe(
-		filter((value) => value % 2 === 0),
-		map((value) => value * 10),
-		distinctUntilChanged()
+	const stream = interval(1000).pipe(
+		watch('Interval(1000)', 10) as any,
+		filter((value: number) => value % 2 === 1),
+		watch('filtered', 10) as any,
+		map((value: number) => Math.floor(value / 3)),
+		watch('mapped', 10) as any,
+		distinctUntilChanged(),
+		watch('distinctUntilChanged', 10) as any
 	);
-
-	const bsSubsription = bsDerived.subscribe((value) => console.log('BehaviorSubject', value));
-
-	for (let i = 1; i <= 10; i++) {
-		bs.next(i);
-		bs.next(i);
-		bs.next(i);
-	}
-
-	onDestroy(() => {
-		// sSubsription.unsubscribe();
-		bsSubsription.unsubscribe();
-	});
 </script>
 
-<h2>{$bs}</h2>
+<h2>{$stream}</h2>
