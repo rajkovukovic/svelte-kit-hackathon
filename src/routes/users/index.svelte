@@ -1,22 +1,26 @@
 <script lang="ts">
+	import { collection } from 'firebase/firestore';
+	import { collectionData } from 'rxfire/firestore';
+	import { db } from '$lib/state/db';
 	import UserCard from '$lib/widgets/UserCard.svelte';
-	import * as dataUtils from '$lib/utils/dataUtils';
+
+	const usersRef = collection(db, 'users');
+
+	const users = collectionData(usersRef, { idField: 'id' });
 </script>
 
 <h1>Users</h1>
-{#await dataUtils.fetchUsers()}
+{#if !$users}
 	Loading users...
-{:then users}
+{:else}
 	<div class="user-list">
-		{#each users as { id, name } (id)}
+		{#each $users as { id, firstName, lastName } (id)}
 			<div class="user-wrapper">
-				<UserCard {id} {name} />
+				<UserCard {id} name="{firstName} {lastName}" />
 			</div>
 		{/each}
 	</div>
-{:catch error}
-	{error}
-{/await}
+{/if}
 
 <style>
 	.user-list {
