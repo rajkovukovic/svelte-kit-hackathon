@@ -1,10 +1,16 @@
 <script lang="ts">
-	import { collection } from 'firebase/firestore';
+	import { collection, limit, orderBy, query, where } from 'firebase/firestore';
 	import { collectionData } from 'rxfire/firestore';
 	import { db } from '$lib/state/db';
 	import UserCard from '$lib/widgets/UserCard.svelte';
 
-	const usersRef = collection(db, 'users');
+	const usersRef = query(
+		collection(db, 'users'),
+		// firstName in range A...O
+		where('firstName', '<', 'P'),
+		orderBy('firstName'),
+		limit(2)
+	);
 
 	const users = collectionData(usersRef, { idField: 'id' });
 </script>
