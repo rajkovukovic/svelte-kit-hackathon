@@ -1,23 +1,37 @@
 <script lang="ts">
-	import { collection, limit, orderBy, query, where } from 'firebase/firestore';
+	import { collection, doc, limit, orderBy, query, where, writeBatch } from 'firebase/firestore';
 	import { collectionData } from 'rxfire/firestore';
 	import { db } from '$lib/state/db';
 	import UserCard from '$lib/widgets/UserCard.svelte';
 
-	const usersRef = query(
-		collection(db, 'users'),
-		// firstName in range A...O
-		where('firstName', '<', 'P'),
-		orderBy('firstName'),
-		limit(2)
-	);
+	const usersRef = query(collection(db, 'users'), orderBy('firstName'), limit(20));
 
 	const users = collectionData(usersRef, { idField: 'id' });
+
+	function createMockUsers() {
+		const mockUsers = [
+			{ firstName: 'Nikola', lastName: 'Tesla' },
+			{ firstName: 'Ada', lastName: 'Lovelace' },
+			{ firstName: 'JK', lastName: 'Rowling' },
+			{ firstName: 'John', lastName: 'Doe' }
+		];
+
+		const batch = writeBatch(db);
+
+		mockUsers.forEach((user) => {
+			const uniqueUserRef = doc(collection(db, 'users'));
+			batch.set(uniqueUserRef, user);
+		});
+
+		batch.commit();
+	}
 </script>
 
 <h1>Users</h1>
 {#if !$users}
 	Loading users...
+{:else if $users.length === 0}
+	<button on:click={createMockUsers}>Create Mock Users</button>
 {:else}
 	<div class="user-list">
 		{#each $users as { id, firstName, lastName } (id)}
